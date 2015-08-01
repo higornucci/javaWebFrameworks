@@ -3,17 +3,30 @@ package br.com.htcursos.weframeworks.model.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Repository;
 
 import br.com.htcursos.weframeworks.model.entidade.Usuario;
 
+@Repository
 public class UsuarioDAOJPA implements UsuarioDAO {
 
+	@PersistenceContext
 	private EntityManager entityManager;
 	
-	@Override
+//	@Override
+//	public void salvar(Usuario usuario) {
+//		EntityTransaction transacao = entityManager.getTransaction();
+//		transacao.begin();
+//		entityManager.merge(usuario);
+//		transacao.commit();
+//	}
+	
+	@Override @Transactional
 	public void salvar(Usuario usuario) {
-		// TODO Auto-generated method stub
-
+		entityManager.merge(usuario);
 	}
 
 	@Override
