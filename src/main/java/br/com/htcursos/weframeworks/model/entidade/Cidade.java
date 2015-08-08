@@ -1,36 +1,41 @@
 package br.com.htcursos.weframeworks.model.entidade;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
-public class Marca {
-
+public class Cidade {
+	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
+	@Column(nullable=false)
 	private String nome;
 	
-	@OneToMany(mappedBy="montadora")
-	private List<Modelo> modelos = new ArrayList<>();
+	@ManyToOne
+	private Estado estado;
 	
-	@OneToOne(mappedBy="montadora")
-	private DetalheMarca detalheMarca;
-	
-	public Marca() {
+	public Cidade() {
 	}
 	
-	public Marca(String nome) {
+	public Cidade(String nome, Estado estado) {
 		this.nome = nome;
+		this.estado = estado;
+	}
+	
+	public Integer getId() {
+		return id;
 	}
 	
 	public String getNome() {
 		return nome;
+	}
+	
+	public Estado getEstado() {
+		return estado;
 	}
 }
