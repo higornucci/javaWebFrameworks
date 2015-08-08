@@ -4,9 +4,10 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.htcursos.weframeworks.model.entidade.Usuario;
 
@@ -16,35 +17,31 @@ public class UsuarioDAOJPA implements UsuarioDAO {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-//	@Override
-//	public void salvar(Usuario usuario) {
-//		EntityTransaction transacao = entityManager.getTransaction();
-//		transacao.begin();
-//		entityManager.merge(usuario);
-//		transacao.commit();
-//	}
-	
-	@Override @Transactional
+	@Override @Transactional(propagation=Propagation.NESTED)
 	public void salvar(Usuario usuario) {
-		entityManager.merge(usuario);
+		entityManager.persist(usuario);
 	}
 
 	@Override
 	public List<Usuario> buscarTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		return entityManager.createQuery("FROM Usuario").getResultList();
 	}
 
-	@Override
+	@Override @Transactional
 	public void excluir(Usuario usuario) {
-		// TODO Auto-generated method stub
-
+		entityManager.remove(
+				entityManager.getReference(
+						Usuario.class, usuario.getId()));
+	}
+	
+	@javax.transaction.Transactional
+	public void alterar(Usuario usuario) {
+		entityManager.merge(usuario);
 	}
 
 	@Override
 	public Usuario buscarPorId(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return entityManager.find(Usuario.class, id);
 	}
 
 }

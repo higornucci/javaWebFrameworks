@@ -74,4 +74,10 @@ public class UsuarioDAOJdbc implements UsuarioDAO {
 		return null;
 	}
 
+	@Override
+	public void alterar(Usuario usuario) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

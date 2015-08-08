@@ -15,8 +15,10 @@ class TesteUsuarioDaoJpa {
 		// Obtendo uma instancia de UsuarioDAO pelo Contexto do Spring
 		UsuarioDAO usuarioDAO = (UsuarioDAO) ctx.getBean("usuarioDAOJPA");
 		// Criando uma nova Instancia de usuário para ser salvo
-		Usuario usu = new Usuario("Pedro", "pedro", "senha123");
+		Usuario usuario = new Usuario("Pedro", "pedro", "senha123");
 		// Salvando
-		usuarioDAO.salvar(usu);
+		usuarioDAO.salvar(usuario);
+		usuarioDAO.excluir(usuario);
+		usuarioDAO.alterar(usuario);
 	}
 }

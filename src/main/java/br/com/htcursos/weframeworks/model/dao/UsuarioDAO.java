@@ -10,4 +10,5 @@ public interface UsuarioDAO {
 	List<Usuario> buscarTodos() throws SQLException;
 	void excluir(Usuario usuario);
 	Usuario buscarPorId(Integer id);
+	void alterar(Usuario usuario);
 }

@@ -30,4 +30,10 @@ public class UsuarioDAOList implements UsuarioDAO {
 		Usuario usuarioEncontrado = null;
 		return usuarioEncontrado;
 	}
+
+	@Override
+	public void alterar(Usuario usuario) {
+		// TODO Auto-generated method stub
+		
+	}
 }
