@@ -7,7 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import br.com.htcursos.weframeworks.model.entidade.Usuario;
 
 class TesteUsuarioDaoJpa {
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws SQLException, DAOException {
 		// Carregando o contexto do Spring
 		ClassPathXmlApplicationContext ctx = new
 				ClassPathXmlApplicationContext(
