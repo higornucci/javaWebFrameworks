@@ -22,15 +22,14 @@ public class UsuarioController {
 		usuario = new Usuario();
 	}
 	
-	public void salvar() throws ServiceException {
-		usuarioService.salvar(usuario);
-		FacesContext contexto = FacesContext.getCurrentInstance();
-		FacesMessage mensagemJSF = 
-				new FacesMessage(
-						FacesMessage.SEVERITY_INFO, 
-						"Usuário salvo."
-						, null);
-		contexto.addMessage(null, mensagemJSF);
+	public void salvar() {
+		try {
+			usuarioService.salvar(usuario);
+			MensagemUtil.mensagemInfo("Usuário salvo.");
+			usuario = new Usuario();
+		} catch (ServiceException e) {
+			MensagemUtil.mensagemErro("Login já existente.");
+		}
 	}
 	
 	public Usuario getUsuario() {

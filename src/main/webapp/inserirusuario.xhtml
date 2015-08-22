@@ -7,23 +7,31 @@
 
 <head>
 <title>Cadastro de Usuários</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></link>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"></link>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<h3>Cadastro de Usuários</h3>
-	<h:form prependId="false">
-		<h:outputLabel jsf:for="nome" value="Nome:" />
-		<h:inputText id="nome" value="#{usuarioController.usuario.nome}" styleClass="form-control" jsf:placeholder="Digite o nome" jsf:autofocus="true" />
+	<h:form prependId="false" style="width: 400px;">
+		<div class="form-group">
+			<h:outputLabel jsf:for="nome" value="Nome:" />
+			<h:inputText id="nome" value="#{usuarioController.usuario.nome}" styleClass="form-control" jsf:placeholder="Digite o nome" jsf:autofocus="true" />
+		</div>
 
-		<h:outputLabel jsf:for="login" value="Login" />
-		<h:inputText id="login" styleClass="form-control" value="#{usuarioController.usuario.login}"	jsf:placeholder="Digite o login" />
+		<div class="form-group">
+			<h:outputLabel jsf:for="login" value="Login:" />
+			<h:inputText id="login" styleClass="form-control" value="#{usuarioController.usuario.login}"	jsf:placeholder="Digite o login" />
+		</div>
 
-		<h:outputLabel jsf:for="senha" value="Senha:" />
-		<h:inputSecret jsf:for="senha" styleClass="form-control" value="#{usuarioController.usuario.senha}" jsf:placeholder="Digite a senha" />
+		<div class="form-group">
+			<h:outputLabel jsf:for="senha" value="Senha:" />
+			<h:inputSecret jsf:for="senha" styleClass="form-control" value="#{usuarioController.usuario.senha}" jsf:placeholder="Digite a senha" />
+		</div>
 
 		<h:commandButton styleClass="btn btn-primary" actionListener="#{usuarioController.salvar()}" value="Salvar" />
 		
 		<h:messages />
-		
 	</h:form>
 </body>
 </html>
