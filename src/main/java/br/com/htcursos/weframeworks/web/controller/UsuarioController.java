@@ -1,7 +1,8 @@
 package br.com.htcursos.weframeworks.web.controller;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,8 @@ public class UsuarioController {
 
 	private Usuario usuario;
 	
+	private List<Usuario> usuarios;
+	
 	@Autowired
 	private UsuarioService usuarioService;
 	
@@ -22,13 +25,37 @@ public class UsuarioController {
 		usuario = new Usuario();
 	}
 	
+	@PostConstruct
+	public void init() {
+		usuarios = usuarioService.buscarTodos();
+	}
+	
 	public void salvar() {
 		try {
 			usuarioService.salvar(usuario);
 			MensagemUtil.mensagemInfo("Usuário salvo.");
+			
+			// vai dar ruim!
+			init();
 			usuario = new Usuario();
 		} catch (ServiceException e) {
 			MensagemUtil.mensagemErro("Login já existente.");
+		}
+	}
+	
+	public void editar(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	
+	public void excluir(Usuario usuario) {
+		try {
+			usuarioService.excluir(usuario);
+			MensagemUtil.mensagemInfo("Usuário excluído.");
+			
+			// vai dar ruim!
+			init();
+		} catch (ServiceException e) {
+			MensagemUtil.mensagemErro("Erro ao excluir. Tente novamente.");
 		}
 	}
 	
@@ -38,5 +65,9 @@ public class UsuarioController {
 	
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	
+	public List<Usuario> getUsuarios() {
+		return usuarios;
 	}
 }
