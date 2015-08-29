@@ -17,11 +17,11 @@ public class UsuarioService {
 	
 	public void salvar(Usuario usuario) throws ServiceException {
 		try {
-			Usuario usuarioExistente = usuarioDAO.buscarPeloLogin(usuario.getLogin());
-			if (usuarioExistente.getId() != null) {
-				throw new ServiceException("Usuário já existe");
+			if (usuario.getId() != null) {
+				usuarioDAO.alterar(usuario);
+			} else {
+				usuarioDAO.salvar(usuario);
 			}
-			usuarioDAO.salvar(usuario);
 		} catch(DAOException daoException) {
 			throw new ServiceException(daoException);
 		}

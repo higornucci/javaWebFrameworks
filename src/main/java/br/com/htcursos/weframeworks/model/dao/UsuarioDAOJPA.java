@@ -29,6 +29,7 @@ public class UsuarioDAOJPA implements UsuarioDAO {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<Usuario> buscarTodos() {
 		return entityManager.createQuery("FROM Usuario").getResultList();
 	}
