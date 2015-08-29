@@ -51,7 +51,7 @@
 
 	<h:form id="form-listagem" prependId="false">
 		<h:dataTable value="#{usuarioController.usuarios}" var="usuario"
-			styleClass="table table-hover">
+			styleClass="table table-hover table-condensed">
 			<h:column>
 				<f:facet name="header">#</f:facet>
 				#{usuario.id}
@@ -68,10 +68,10 @@
 				<f:facet name="header">Opções</f:facet>
 				<h:commandButton
 					actionListener="#{usuarioController.editar(usuario)}"
-					value="Editar" styleClass="btn btn-default btn-xm" />
+					value="Editar" styleClass="btn btn-default btn-xs" />
 				<h:commandButton
 					actionListener="#{usuarioController.excluir(usuario)}"
-					value="Excluir" styleClass="btn btn-danger btn-xm" 
+					value="Excluir" styleClass="btn btn-danger btn-xs" 
 					onclick="return confirmarExclusao()" />
 			</h:column>
 		</h:dataTable>
