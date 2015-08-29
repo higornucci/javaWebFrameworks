@@ -20,6 +20,8 @@ public class UsuarioController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+
+	private boolean edicao;
 	
 	public UsuarioController() {
 		usuario = new Usuario();
@@ -27,6 +29,7 @@ public class UsuarioController {
 	
 	@PostConstruct
 	public void init() {
+		edicao = false;
 		usuarios = usuarioService.buscarTodos();
 	}
 	
@@ -35,15 +38,22 @@ public class UsuarioController {
 			usuarioService.salvar(usuario);
 			MensagemUtil.mensagemInfo("Usuário salvo.");
 			
-			// vai dar ruim!
-			init();
+			if(!edicao) {
+				usuarios.add(usuario);
+			}
 			usuario = new Usuario();
 		} catch (ServiceException e) {
 			MensagemUtil.mensagemErro("Login já existente.");
 		}
 	}
 	
-	public void editar(Usuario usuario) {
+	public void prepararInclusao() {
+		this.edicao = false;
+		usuario = new Usuario();
+	}
+	
+	public void prepararEdicao(Usuario usuario) {
+		this.edicao = true;
 		this.usuario = usuario;
 	}
 	
@@ -51,9 +61,7 @@ public class UsuarioController {
 		try {
 			usuarioService.excluir(usuario);
 			MensagemUtil.mensagemInfo("Usuário excluído.");
-			
-			// vai dar ruim!
-			init();
+			usuarios.remove(usuario);
 		} catch (ServiceException e) {
 			MensagemUtil.mensagemErro("Erro ao excluir. Tente novamente.");
 		}
@@ -69,5 +77,9 @@ public class UsuarioController {
 	
 	public List<Usuario> getUsuarios() {
 		return usuarios;
+	}
+	
+	public boolean isEdicao() {
+		return edicao;
 	}
 }

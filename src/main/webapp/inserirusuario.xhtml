@@ -5,18 +5,18 @@
 	xmlns:jsf="http://xmlns.jcp.org/jsf/passthrough" lang="en">
 
 <head>
-<title>Cadastro de Usuários</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></link>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"></link>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script type="text/javascript">
-	function confirmarExclusao() {
-		return window.confirm("Deseja excluir?");
-	}
-</script>
+	<title>Cadastro de Usuários</title>
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></link>
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"></link>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		function confirmarExclusao(nome) {
+			return window.confirm("Deseja excluir o " + nome + "?");
+		}
+	</script>
 </head>
 <body>
 	<h3>Cadastro de Usuários</h3>
@@ -30,18 +30,23 @@
 
 		<div class="form-group">
 			<h:outputLabel jsf:for="login" value="Login:" />
-			<h:inputText id="login" styleClass="form-control"
+			<h:inputText id="login" disabled="#{usuarioController.edicao}" styleClass="form-control"
 				value="#{usuarioController.usuario.login}"
 				jsf:placeholder="Digite o login" />
 		</div>
 
 		<div class="form-group">
-			<h:outputLabel jsf:for="senha" value="Senha:" />
+			<h:outputLabel jsf:for="senha" 
+				rendered="#{!usuarioController.edicao}" 
+				value="Senha:" />
 			<h:inputSecret id="senha" styleClass="form-control"
 				value="#{usuarioController.usuario.senha}"
+				rendered="#{!usuarioController.edicao}"
 				jsf:placeholder="Digite a senha" />
 		</div>
 
+		<h:commandButton actionListener="#{usuarioController.prepararInclusao()}" 
+			value="Novo" styleClass="btn btn-default" />
 		<h:commandButton styleClass="btn btn-primary"
 			actionListener="#{usuarioController.salvar()}" value="Salvar" />
 
@@ -49,7 +54,7 @@
 
 	<h:messages />
 
-	<h:form id="form-listagem" prependId="false">
+	<h:form>
 		<h:dataTable value="#{usuarioController.usuarios}" var="usuario"
 			styleClass="table table-hover table-condensed">
 			<h:column>
@@ -66,13 +71,11 @@
 			</h:column>
 			<h:column>
 				<f:facet name="header">Opções</f:facet>
-				<h:commandButton
-					actionListener="#{usuarioController.editar(usuario)}"
+				<h:commandButton actionListener="#{usuarioController.prepararEdicao(usuario)}" 
 					value="Editar" styleClass="btn btn-default btn-xs" />
-				<h:commandButton
-					actionListener="#{usuarioController.excluir(usuario)}"
-					value="Excluir" styleClass="btn btn-danger btn-xs" 
-					onclick="return confirmarExclusao()" />
+				<h:commandButton actionListener="#{usuarioController.excluir(usuario)}" 
+					value="Excluir" styleClass="btn btn-danger btn-xs"
+					onclick="return confirmarExclusao('#{usuario.nome}')" />
 			</h:column>
 		</h:dataTable>
 	</h:form>
