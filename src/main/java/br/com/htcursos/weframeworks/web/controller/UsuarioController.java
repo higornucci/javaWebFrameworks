@@ -1,5 +1,7 @@
 package br.com.htcursos.weframeworks.web.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -81,5 +83,16 @@ public class UsuarioController {
 	
 	public boolean isEdicao() {
 		return edicao;
+	}
+	
+	public List<String> nomes(String letras) {
+		List<String> palavras = Arrays.asList("Fabio","Fabio Oliverira", "Debora", "Lucas", "Marcelo");
+		List<String> palavrasEncontradas = new ArrayList<>();
+		for(String palavra : palavras) {
+			if(palavra.contains(letras)) {
+				palavrasEncontradas.add(palavra);
+			}
+		}
+		return palavrasEncontradas;
 	}
 }

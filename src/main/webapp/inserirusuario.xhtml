@@ -16,27 +16,24 @@
 <h:body>
 	<h3>Cadastro de Usuários</h3>
 	<h:form id="form-cadastro" prependId="false">
-		<p:outputLabel value="Perfil" />
-		<p:selectOneMenu id="perfil" 
-			value="#{usuarioController.usuario.perfil}"
-			converter="#{perfilConverter}">
-			<f:selectItem itemValue="" itemLabel="Sem Perfil"/>
-			<f:selectItems value="#{perfilController.perfis}"
-				var="perfil" itemLabel="#{perfil.descricao}"/>
-		</p:selectOneMenu>
 		<p:outputLabel for="nome" value="Nome:" />
-		<p:inputText id="nome" value="#{usuarioController.usuario.nome}"
-			placeholder="Digite o nome" />
+		<p:autoComplete id="nome" completeMethod="#{usuarioController.nomes}" 
+			value="#{usuarioController.usuario.nome}"
+			placeholder="Digite o nome" required="true" />
 		<p:focus for="nome" />
 
 		<p:outputLabel for="login" value="Login:" />
 		<p:inputText id="login" disabled="#{usuarioController.edicao}"
 			value="#{usuarioController.usuario.login}"
-			placeholder="Digite o login" />
+			placeholder="Digite o login" required="true" />
 
 		<p:outputLabel for="senha" rendered="#{!usuarioController.edicao}"
 			value="Senha:" />
-		<p:password id="senha" 
+		<p:password id="senha" required="true" feedback="true" 
+			promptLabel="Digite a senha"
+			weakLabel="Senha de merda"
+			goodLabel="Senha mais ou menos"
+			strongLabel="Senha foda" 
 			value="#{usuarioController.usuario.senha}"
 			rendered="#{!usuarioController.edicao}"
 			placeholder="Digite a senha" />
@@ -45,19 +42,16 @@
 			actionListener="#{usuarioController.prepararInclusao()}" value="Novo"
 			update="@form" />
 		<p:commandButton actionListener="#{usuarioController.salvar()}"
-			value="Salvar" update="@form" />
+			value="Salvar" update="@form :listagem:lista-usuarios" />
 
 	</h:form>
 
 	<p:messages />
 
-	<h:form>
-		<p:dataTable value="#{usuarioController.usuarios}" var="usuario">
+	<h:form id="listagem">
+		<p:dataTable id="lista-usuarios" value="#{usuarioController.usuarios}" var="usuario">
 			<p:column headerText="#">
 				#{usuario.id}
-			</p:column>
-			<p:column headerText="Perfil">
-				#{usuario.perfil.descricao}
 			</p:column>
 			<p:column headerText="Nome">
 				#{usuario.nome}
