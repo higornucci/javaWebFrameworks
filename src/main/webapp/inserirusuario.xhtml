@@ -2,82 +2,79 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:jsf="http://xmlns.jcp.org/jsf/passthrough" lang="en">
+	xmlns:jsf="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui" lang="en">
 
-<head>
-	<title>Cadastro de Usuários</title>
-	<link rel="stylesheet"
-		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></link>
-	<link rel="stylesheet"
-		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"></link>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<script type="text/javascript">
+<h:head>
+<title>Cadastro de Usuários</title>
+<script type="text/javascript">
 		function confirmarExclusao(nome) {
 			return window.confirm("Deseja excluir o " + nome + "?");
 		}
 	</script>
-</head>
-<body>
+</h:head>
+<h:body>
 	<h3>Cadastro de Usuários</h3>
-	<h:form id="form-cadastro" prependId="false" style="width: 400px;">
-		<div class="form-group">
-			<h:outputLabel jsf:for="nome" value="Nome:" />
-			<h:inputText id="nome" value="#{usuarioController.usuario.nome}"
-				styleClass="form-control" jsf:placeholder="Digite o nome"
-				jsf:autofocus="true" />
-		</div>
+	<h:form id="form-cadastro" prependId="false">
+		<p:outputLabel value="Perfil" />
+		<p:selectOneMenu id="perfil" 
+			value="#{usuarioController.usuario.perfil}"
+			converter="#{perfilConverter}">
+			<f:selectItem itemValue="" itemLabel="Sem Perfil"/>
+			<f:selectItems value="#{perfilController.perfis}"
+				var="perfil" itemLabel="#{perfil.descricao}"/>
+		</p:selectOneMenu>
+		<p:outputLabel for="nome" value="Nome:" />
+		<p:inputText id="nome" value="#{usuarioController.usuario.nome}"
+			placeholder="Digite o nome" />
+		<p:focus for="nome" />
 
-		<div class="form-group">
-			<h:outputLabel jsf:for="login" value="Login:" />
-			<h:inputText id="login" disabled="#{usuarioController.edicao}" styleClass="form-control"
-				value="#{usuarioController.usuario.login}"
-				jsf:placeholder="Digite o login" />
-		</div>
+		<p:outputLabel for="login" value="Login:" />
+		<p:inputText id="login" disabled="#{usuarioController.edicao}"
+			value="#{usuarioController.usuario.login}"
+			placeholder="Digite o login" />
 
-		<div class="form-group">
-			<h:outputLabel jsf:for="senha" 
-				rendered="#{!usuarioController.edicao}" 
-				value="Senha:" />
-			<h:inputSecret id="senha" styleClass="form-control"
-				value="#{usuarioController.usuario.senha}"
-				rendered="#{!usuarioController.edicao}"
-				jsf:placeholder="Digite a senha" />
-		</div>
+		<p:outputLabel for="senha" rendered="#{!usuarioController.edicao}"
+			value="Senha:" />
+		<p:password id="senha" 
+			value="#{usuarioController.usuario.senha}"
+			rendered="#{!usuarioController.edicao}"
+			placeholder="Digite a senha" />
 
-		<h:commandButton actionListener="#{usuarioController.prepararInclusao()}" 
-			value="Novo" styleClass="btn btn-default" />
-		<h:commandButton styleClass="btn btn-primary"
-			actionListener="#{usuarioController.salvar()}" value="Salvar" />
+		<p:commandButton
+			actionListener="#{usuarioController.prepararInclusao()}" value="Novo"
+			update="@form" />
+		<p:commandButton actionListener="#{usuarioController.salvar()}"
+			value="Salvar" update="@form" />
 
 	</h:form>
 
-	<h:messages />
+	<p:messages />
 
 	<h:form>
-		<h:dataTable value="#{usuarioController.usuarios}" var="usuario"
-			styleClass="table table-hover table-condensed">
-			<h:column>
-				<f:facet name="header">#</f:facet>
+		<p:dataTable value="#{usuarioController.usuarios}" var="usuario">
+			<p:column headerText="#">
 				#{usuario.id}
-			</h:column>
-			<h:column>
-				<f:facet name="header">Nome</f:facet>
+			</p:column>
+			<p:column headerText="Perfil">
+				#{usuario.perfil.descricao}
+			</p:column>
+			<p:column headerText="Nome">
 				#{usuario.nome}
-			</h:column>
-			<h:column>
-				<f:facet name="header">Login</f:facet>
+			</p:column>
+			<p:column headerText="Login">
 				#{usuario.login}
-			</h:column>
-			<h:column>
-				<f:facet name="header">Opções</f:facet>
-				<h:commandButton actionListener="#{usuarioController.prepararEdicao(usuario)}" 
-					value="Editar" styleClass="btn btn-default btn-xs" />
-				<h:commandButton actionListener="#{usuarioController.excluir(usuario)}" 
-					value="Excluir" styleClass="btn btn-danger btn-xs"
+			</p:column>
+			<p:column headerText="Opções">
+				<p:commandButton
+					actionListener="#{usuarioController.prepararEdicao(usuario)}"
+					value="Editar" update="form-cadastro" />
+				<p:commandButton
+					actionListener="#{usuarioController.excluir(usuario)}"
+					value="Excluir" update="@form"
 					onclick="return confirmarExclusao('#{usuario.nome}')" />
-			</h:column>
-		</h:dataTable>
+			</p:column>
+		</p:dataTable>
 	</h:form>
-</body>
+</h:body>
 </html>
