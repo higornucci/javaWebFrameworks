@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -54,9 +55,9 @@ public class UsuarioController {
 		usuario = new Usuario();
 	}
 	
-	public void prepararEdicao(Usuario usuario) {
+	public void prepararEdicao(SelectEvent evento) {
 		this.edicao = true;
-		this.usuario = usuario;
+		this.usuario = (Usuario) evento.getObject();
 	}
 	
 	public void excluir(Usuario usuario) {

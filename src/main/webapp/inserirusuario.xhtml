@@ -16,53 +16,65 @@
 <h:body>
 	<h3>Cadastro de Usuários</h3>
 	<h:form id="form-cadastro" prependId="false">
-		<p:outputLabel for="nome" value="Nome:" />
-		<p:autoComplete id="nome" completeMethod="#{usuarioController.nomes}" 
-			value="#{usuarioController.usuario.nome}"
-			placeholder="Digite o nome" required="true" />
+		<p:panelGrid columns="2" >
+			<p:outputLabel for="nome" value="Nome:" />
+			<p:autoComplete id="nome" completeMethod="#{usuarioController.nomes}" 
+				value="#{usuarioController.usuario.nome}"
+				placeholder="Digite o nome" required="true" />
+	
+			<p:outputLabel for="login" value="Login:" />
+			<p:inputText id="login" disabled="#{usuarioController.edicao}"
+				value="#{usuarioController.usuario.login}"
+				placeholder="Digite o login" required="true" />
+	
+			<p:outputLabel for="senha" rendered="#{!usuarioController.edicao}"
+				value="Senha:" />
+			<p:password id="senha" required="true" feedback="true" 
+				promptLabel="Digite a senha"
+				weakLabel="Senha de merda"
+				goodLabel="Senha mais ou menos"
+				strongLabel="Senha foda" 
+				value="#{usuarioController.usuario.senha}"
+				rendered="#{!usuarioController.edicao}"
+				placeholder="Digite a senha" />
+	
+			<f:facet name="footer">
+				<h:panelGroup style="display:block; text-align:center;">
+					<p:commandButton
+						actionListener="#{usuarioController.prepararInclusao()}" value="Novo"
+						update="@form" />
+					<p:commandButton actionListener="#{usuarioController.salvar()}"
+						value="Salvar" update="@form :listagem:lista-usuarios" />
+				</h:panelGroup>
+			</f:facet>
+		</p:panelGrid>
 		<p:focus for="nome" />
-
-		<p:outputLabel for="login" value="Login:" />
-		<p:inputText id="login" disabled="#{usuarioController.edicao}"
-			value="#{usuarioController.usuario.login}"
-			placeholder="Digite o login" required="true" />
-
-		<p:outputLabel for="senha" rendered="#{!usuarioController.edicao}"
-			value="Senha:" />
-		<p:password id="senha" required="true" feedback="true" 
-			promptLabel="Digite a senha"
-			weakLabel="Senha de merda"
-			goodLabel="Senha mais ou menos"
-			strongLabel="Senha foda" 
-			value="#{usuarioController.usuario.senha}"
-			rendered="#{!usuarioController.edicao}"
-			placeholder="Digite a senha" />
-
-		<p:commandButton
-			actionListener="#{usuarioController.prepararInclusao()}" value="Novo"
-			update="@form" />
-		<p:commandButton actionListener="#{usuarioController.salvar()}"
-			value="Salvar" update="@form :listagem:lista-usuarios" />
-
 	</h:form>
-
+	
 	<p:messages />
 
 	<h:form id="listagem">
-		<p:dataTable id="lista-usuarios" value="#{usuarioController.usuarios}" var="usuario">
-			<p:column headerText="#">
+		<p:dataTable id="lista-usuarios" value="#{usuarioController.usuarios}" 
+			var="usuario" selectionMode="single" rowKey="#{usuario.id}" 
+			paginator="true" rows="5" emptyMessage="Nada encontrado"
+			reflow="true" paginatorAlwaysVisible="false" style="margin-top: 20px">
+			<p:ajax event="rowSelect" 
+				listener="#{usuarioController.prepararEdicao}" 
+				update="form-cadastro" />
+			<f:facet name="header">
+				Lista de usuários
+			</f:facet>
+			<p:column headerText="#" width="30">
 				#{usuario.id}
 			</p:column>
-			<p:column headerText="Nome">
+			<p:column headerText="Nome" filterBy="#{usuario.nome}" 
+				filterMatchMode="contains">
 				#{usuario.nome}
 			</p:column>
 			<p:column headerText="Login">
 				#{usuario.login}
 			</p:column>
-			<p:column headerText="Opções">
-				<p:commandButton
-					actionListener="#{usuarioController.prepararEdicao(usuario)}"
-					value="Editar" update="form-cadastro" />
+			<p:column headerText="Opções" >
 				<p:commandButton
 					actionListener="#{usuarioController.excluir(usuario)}"
 					value="Excluir" update="@form"
