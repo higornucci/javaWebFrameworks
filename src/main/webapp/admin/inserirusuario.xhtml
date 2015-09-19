@@ -17,7 +17,7 @@
 	<h3>Cadastro de Usuários</h3>
 	<h:form id="form-cadastro" prependId="false">
 		<p:panelGrid columns="2" >
-			<p:outputLabel for=perfil value="Perfil" />
+			<p:outputLabel for="perfil" value="Perfil" />
 			<p:selectOneMenu id="perfil" value="#{usuarioController.usuario.perfil}"
 				converter="#{perfilConverter}">
 				<f:selectItem itemValue="" itemLabel="Sem Perfil"/>
