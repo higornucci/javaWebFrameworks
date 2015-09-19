@@ -16,7 +16,6 @@ public class PerfilConverter implements Converter {
 	@Autowired
 	private PerfilService perfilService;
 	
-	@Override
 	public Object getAsObject(FacesContext context, UIComponent componente, String valor) {
 		Integer id = null;
 		try {

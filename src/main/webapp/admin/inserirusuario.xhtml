@@ -8,6 +8,34 @@
 <h:head>
 <title>Cadastro de Usuários</title>
 <script type="text/javascript">
+PrimeFaces.locales['pt'] = {
+    closeText: 'Fechar',
+    prevText: 'Anterior',
+    nextText: 'Próximo',
+    currentText: 'Começo',
+    monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+    monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun', 'Jul','Ago','Set','Out','Nov','Dez'],
+    dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
+    dayNamesMin: ['D','S','T','Q','Q','S','S'],
+    weekHeader: 'Semana',
+    firstDay: 0,
+    isRTL: false,
+    showMonthAfterYear: false,
+    yearSuffix: '',
+    timeOnlyTitle: 'Só Horas',
+    timeText: 'Tempo',
+    hourText: 'Hora',
+    minuteText: 'Minuto',
+    secondText: 'Segundo',
+    ampm: false,
+    month: 'Mês',
+    week: 'Semana',
+    day: 'Dia',
+    allDayText : 'Todo o Dia'
+};
+</script>
+<script type="text/javascript">
 		function confirmarExclusao(nome) {
 			return window.confirm("Deseja excluir o " + nome + "?");
 		}
@@ -24,10 +52,16 @@
 				<f:selectItems value="#{perfilController.perfis}" var="perfil"
 					itemLabel="#{perfil.descricao}"/>
 			</p:selectOneMenu>
+			
 			<p:outputLabel for="nome" value="Nome:" />
 			<p:autoComplete id="nome" completeMethod="#{usuarioController.nomes}" 
 				value="#{usuarioController.usuario.nome}"
 				placeholder="Digite o nome" required="true" />
+	
+			<p:outputLabel for="dataDeNascimento" value="Data de nascimento: " />
+			<p:calendar id="dataDeNascimento" value="#{usuarioController.usuario.dataDeNascimento}" 
+				locale="pt" navigator="true" effect="slide"
+				pattern="dd/MM/yyyy" mask="true"/>
 	
 			<p:outputLabel for="login" value="Login:" />
 			<p:inputText id="login" disabled="#{usuarioController.edicao}"
@@ -75,12 +109,17 @@
 			<p:column headerText="#" width="30">
 				#{usuario.id}
 			</p:column>
-			<p:column headerText="Perfil">
-				#{usuario.perfil}
+			<p:column headerText="Perfil" filterBy="#{usuario.perfil.descricao}">
+				#{usuario.perfil.descricao}
 			</p:column>
 			<p:column headerText="Nome" filterBy="#{usuario.nome}" 
 				filterMatchMode="contains">
 				#{usuario.nome}
+			</p:column>
+			<p:column headerText="Data de nascimento">
+				<p:outputLabel value="#{usuario.dataDeNascimento}">
+					<f:convertDateTime pattern="dd/MM/yyyy"/>
+				</p:outputLabel>
 			</p:column>
 			<p:column headerText="Login">
 				#{usuario.login}

@@ -17,9 +17,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		BasicDataSource ds = new BasicDataSource();
         ds.setDriverClassName("org.postgresql.Driver");
-        ds.setUrl("jdbc:postgresql://localhost:5432/webframeworks");
+        ds.setUrl("jdbc:postgresql://104.131.169.167:5432/webframeworks");
         ds.setUsername("postgres");
-        ds.setPassword("150754");
+        ds.setPassword("123");
 		
         auth.jdbcAuthentication().dataSource(ds)
 		.usersByUsernameQuery("select login, senha, ativo from usuario where login=?")
@@ -30,11 +30,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		http.authorizeRequests()
-			.antMatchers("/admin/**").access("authenticated")  
+			.antMatchers("/admin/inserirusuario.xhtml").access("hasAuthority('Administrador')")  
 		.and()
 			.formLogin().loginPage("/login.xhtml")
 			.usernameParameter("login").passwordParameter("senha")
 			.defaultSuccessUrl("/admin/inserirusuario.xhtml")
+			.failureUrl("/login.xhtml?erro=true")
 		.and()
 			.logout().logoutSuccessUrl("/login.xhtml")
 		.and()
