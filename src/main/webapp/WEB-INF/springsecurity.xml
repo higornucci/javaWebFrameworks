@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns:b="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+	<http auto-config="true" use-expressions="true">
+		<csrf disabled="true"/>
+		<intercept-url pattern="/admin/**" access="hasRole('Administrador')" />
+		<intercept-url pattern="/login.xhtml" access="permitAll" />
+		<form-login authentication-failure-url="/login.xhtml?error=1" 
+			default-target-url="/admin/inserirusuario.xhtml" login-page="/login.xhtml"
+			username-parameter="login" password-parameter="senha" />
+	</http>
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider>
+			<jdbc-user-service
+				data-source-ref="dataSource"
+				users-by-username-query="select login, senha, ativo from
+usuario where login=?"
+				authorities-by-username-query="select u.login, p.descricao
+from usuario u, perfil p where u.perfil_id=p.id and login=?" />
+		</authentication-provider>
+	</authentication-manager>
+</b:beans>

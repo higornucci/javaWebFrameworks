@@ -17,6 +17,13 @@
 	<h3>Cadastro de Usuários</h3>
 	<h:form id="form-cadastro" prependId="false">
 		<p:panelGrid columns="2" >
+			<p:outputLabel for=perfil value="Perfil" />
+			<p:selectOneMenu id="perfil" value="#{usuarioController.usuario.perfil}"
+				converter="#{perfilConverter}">
+				<f:selectItem itemValue="" itemLabel="Sem Perfil"/>
+				<f:selectItems value="#{perfilController.perfis}" var="perfil"
+					itemLabel="#{perfil.descricao}"/>
+			</p:selectOneMenu>
 			<p:outputLabel for="nome" value="Nome:" />
 			<p:autoComplete id="nome" completeMethod="#{usuarioController.nomes}" 
 				value="#{usuarioController.usuario.nome}"
@@ -29,7 +36,8 @@
 	
 			<p:outputLabel for="senha" rendered="#{!usuarioController.edicao}"
 				value="Senha:" />
-			<p:password id="senha" required="true" feedback="true" 
+			<p:password id="senha" required="true" feedback="true"
+				redisplay="true" 
 				promptLabel="Digite a senha"
 				weakLabel="Senha de merda"
 				goodLabel="Senha mais ou menos"
@@ -66,6 +74,9 @@
 			</f:facet>
 			<p:column headerText="#" width="30">
 				#{usuario.id}
+			</p:column>
+			<p:column headerText="Perfil">
+				#{usuario.perfil}
 			</p:column>
 			<p:column headerText="Nome" filterBy="#{usuario.nome}" 
 				filterMatchMode="contains">

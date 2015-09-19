@@ -21,6 +21,8 @@ public class Usuario implements Serializable {
 	@Column(nullable=false)
 	private String senha;
 	
+	private Boolean ativo = true;
+	
 	@ManyToOne
 	private Perfil perfil;
 	
@@ -67,6 +69,14 @@ public class Usuario implements Serializable {
 
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
+	}
+	
+	public Boolean getAtivo() {
+		return ativo;
+	}
+	
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
 	}
 
 	@Override
